@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vào dịp Tết Nguyên Đán</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styleTet.css">
+</head>
+<body>
+<div class="container-fluid main-container">
+    <header>
+        <h1>Chúc mừng năm mới Em bé Dĩm Hương</h1>
+    </header>
+
+    <div class="festival-header">
+        <div class="side-greeting left-greeting">
+            <div class="greeting-content">
+                <h3>An Khang Thịnh Vượng</h3>
+            </div>
+        </div>
+        <div class="center-banner">
+            <div class="main-title">
+                <div class="lanterns"></div>
+                <h1>Xuân Giáp Thìn - 2025</h1>
+                <div class="lanterns"></div>
+            </div>
+            <div class="fireworks"></div>
+        </div>
+        <div class="side-greeting right-greeting">
+            <div class="greeting-content">
+                <h3>Vạn Sự Như Ý</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="loi-chuc">
+        <p>Sang năm mới chúc em bé: <br> <strong>Xinh Đẹp</strong> <br>
+            <strong>Luôn luôn khỏe mạnh  <br>
+            Học giỏi, Mau ăn chóng lớn <br>
+            Mọi việc thành công<br>
+            Luôn Hạnh Phúc khi bên anh và Gia Đình!<br></strong>
+        </p>
+        <h3>Happy Lunar New Year</h3>
+    </div>
+
+    <!-- Game Bầu Cua -->
+    <section class="baucua-section text-center mt-5">
+        <h2>Bầu Cua</h2>
+        <p> <em>Em bé một trong 6 con vật để cược và xóc đĩa</em> <br>
+        <strong>Chúc em bé đặt đâu thắng đó nkaaa :> </strong> </p>
+        <div class="baucua-board">
+            <div class="bet-option" data-option="bầu">
+                <img src="../images/tet-images/bau.jpg" alt="Bầu" class="bet-image">
+                <div class="bet-info">Cược: 0đ</div>
+            </div>
+            <div class="bet-option" data-option="cua">
+                <img src="../images/tet-images/cua.jpg" alt="Cua" class="bet-image">
+                <div class="bet-info">Cược: 0đ</div>
+            </div>
+            <div class="bet-option" data-option="tôm">
+                <img src="../images/tet-images/tom.jpg" alt="Tôm" class="bet-image">
+                <div class="bet-info">Cược: 0đ</div>
+            </div>
+            <div class="bet-option" data-option="cá">
+                <img src="../images/tet-images/ca.jpg" alt="Cá" class="bet-image">
+                <div class="bet-info">Cược: 0đ</div>
+            </div>
+            <div class="bet-option" data-option="nai">
+                <img src="../images/tet-images/nai.jpg" alt="Nai" class="bet-image">
+                <div class="bet-info">Cược: 0đ</div>
+            </div>
+            <div class="bet-option" data-option="gà">
+                <img src="../images/tet-images/ga.jpg" alt="Gà" class="bet-image">
+                <div class="bet-info">Cược: 0đ</div>
+            </div>
+        </div>
+
+        <!-- Điều khiển game -->
+        <div class="game-controls mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="balance-display">
+                    <strong>Số dư:</strong> <span id="balance">10.000.000</span>đ
+                </div>
+                <div class="total-bets-display">
+                    <strong>Tổng cược:</strong> <span id="total-bets">0</span>đ
+                </div>
+            </div>
+            <div class="bet-options mb-4">
+                <button class="btn btn-outline-danger bet-amount" data-value="1000">1,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="2000">2,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="5000">5,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="10000">10,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="20000">20,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="50000">50,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="100000">100,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="200000">200,000đ</button>
+                <button class="btn btn-outline-danger bet-amount" data-value="500000">500,000đ</button>
+            </div>
+            <button id="rollDice" class="btn-roll">Gec go</button>
+        </div>
+
+        <!-- Kết quả -->
+        <div id="result-display" class="result-section"></div>
+        <div id="notification" class="notification" style="background: lightpink; display: inline-block; padding:20px; border-radius: 20px;"></div>
+        <br>
+        <button style="display: inline-block" class="backHome" onclick="backHome()">Quay về trang chủ</button>
+    </section>
+
+</div>
+
+<!-- Audio -->
+<audio id="diceSound" src="sounds/dice.mp3"></audio>
+<audio id="winSound" src="sounds/win.mp3"></audio>
+<audio id="bgMusic" src="sounds/tet_music.mp3" loop></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/appTet.js"></script>
+</body>
+</html>

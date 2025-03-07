@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Special</title>
+
+    <!-- Liên kết file CSS chính -->
+    <link rel="stylesheet" href="../css/styleValentine.css">
+
+    <!-- Icon và font -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Nút điều khiển nhạc -->
+<div class="music-control">
+    <button id="musicToggle" class="music-btn">
+        <i class="fas fa-music"></i>
+        <span class="music-tooltip">Phát nhạc</span>
+    </button>
+    <audio id="bgMusic" loop>
+        <source src="" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ audio.
+    </audio>
+</div>
+
+<!-- Container hiệu ứng trái tim bay -->
+<div id="hearts-container" class="floating-hearts"></div>
+
+<!-- Header (Navbar) -->
+<header class="glass-effect">
+    <nav class="navbar-custom">
+        <div class="nav-brand">
+            <i class="fas fa-heart"></i> Valentine Special
+        </div>
+        <ul>
+            <li><a href="#hero" class="nav-link">Trang chủ</a></li>
+            <li><a href="#story" class="nav-link">Câu chuyện</a></li>
+            <li><a href="#gallery" class="nav-link">Khoảnh khắc</a></li>
+            <li><a href="#gift" class="nav-link">Món quà</a></li>
+            <li><a href="#wishes" class="nav-link">Lời chúc</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section id="hero" class="hero-section">
+    <div class="hero-content glass-effect">
+        <h1 class="shine-text">Happy Valentine's Day</h1>
+        <p class="hero-subtitle">Những ngọt ngào dành tặng riêng cho em!</p>
+        <button class="glow-button" id="loveButton">
+            Gửi Lời Yêu Thương
+        </button>
+    </div>
+</section>
+
+<!-- Story Section -->
+<section id="story" class="story-section">
+    <div class="container glass-effect">
+        <h2 class="section-title">Câu Chuyện Tình Yêu</h2>
+        <div class="timeline">
+            <!-- Mốc kỷ niệm 1 -->
+            <div class="timeline-item left">
+                <div class="content glass-effect">
+                    <h3>Lần Đầu Gặp Gỡ</h3>
+                    <p>Ngày chúng ta gặp nhau là một khoảnh khắc đặc biệt...</p>
+                    <div class="date">14.02.2022</div>
+                </div>
+            </div>
+            <!-- Mốc kỷ niệm 2 -->
+            <div class="timeline-item right">
+                <div class="content glass-effect">
+                    <h3>Những Khoảnh Khắc Đáng Nhớ</h3>
+                    <p>Cùng xem lại những khoảnh khắc hạnh phúc nhất...</p>
+                    <div class="date">14.08.2022</div>
+                </div>
+            </div>
+            <!-- Mốc kỷ niệm 3 -->
+            <div class="timeline-item left">
+                <div class="content glass-effect">
+                    <h3>Chung Đôi Ngày Valentine</h3>
+                    <p>Mỗi dịp Valentine lại làm tình yêu thêm sâu đậm hơn...</p>
+                    <div class="date">14.02.2023</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section id="gallery" class="gallery-section">
+    <h2 class="section-title shine-text">Album Kỷ Niệm</h2>
+    <div class="gallery-grid">
+        <div class="gallery-item">
+            <img src="../images/wwe.jpg" alt="Kỷ niệm 1">
+            <div class="overlay glass-effect">
+                <p>Nhớ về chuyến đi đầu tiên</p>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <img src="images/gallery2.jpg" alt="Kỷ niệm 2">
+            <div class="overlay glass-effect">
+                <p>Một ngày hẹn hò ngọt ngào</p>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <img src="../images/we.jpg" alt="Kỷ niệm 3">
+            <div class="overlay glass-effect">
+                <p>Bất ngờ nhỏ dành cho em</p>
+            </div>
+        </div>
+        <!-- Bạn có thể thêm nhiều ảnh hơn tùy ý -->
+    </div>
+</section>
+
+<!-- Món Quà (Gift) Section -->
+<section id="gift" class="gift-section glass-effect" style="margin: 2rem;">
+    <h2 class="section-title">Món Quà Đặc Biệt</h2>
+    <div class="gift-content fade-in">
+        <p>Anh đã chuẩn bị một món quà nho nhỏ dành riêng cho em. Mong rằng em sẽ luôn hạnh phúc mỗi khi nhớ đến.</p>
+        <!-- Chèn link hoặc button dẫn đến video/video embed, v.v... -->
+        <div class="gift-video">
+            <!-- Nếu có nhúng YouTube, có thể đặt iframe ở đây -->
+            <div id="player"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Wishes Section -->
+<!--<section id="wishes" class="wishes-section">-->
+<!--    <div class="wishes-container glass-effect">-->
+<!--        <h2 class="section-title">Gửi Lời Chúc Yêu Thương</h2>-->
+<!--        <div class="wish-form">-->
+<!--            <div class="input-group">-->
+<!--                <input type="text" id="wishName" placeholder="Tên của bạn" class="glass-input">-->
+<!--                <textarea id="wishMessage" placeholder="Lời chúc của bạn" class="glass-input"></textarea>-->
+<!--                <button class="glow-button" id="sendWish">Gửi Lời Chúc</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div id="wishes-display" class="wishes-wall glass-effect">-->
+<!--            &lt;!&ndash; Các lời chúc sẽ được thêm tại đây qua JavaScript &ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!-- Footer -->
+<footer class="glass-effect" style="text-align: center; padding: 1rem; margin-top: 2rem;">
+    <p>Made with <i class="fas fa-heart" style="color: var(--primary-color);"></i> by Someone Special</p>
+</footer>
+
+<!-- Script quản lý tương tác (ví dụ: appValentine.js) -->
+<script src="../js/appValentine.js"></script>
+
+</body>
+</html>

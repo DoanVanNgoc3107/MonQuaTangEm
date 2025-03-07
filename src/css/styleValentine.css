@@ -1,0 +1,328 @@
+/* ============================= */
+/*     BIẾN TOÀN CỤC & RESET     */
+/* ============================= */
+:root {
+    --primary-color: #ff4d8d;           /* Màu chính nổi bật (hồng đậm) */
+    --secondary-color: #ff8fa3;         /* Màu phụ (hồng nhạt) */
+    --background-color: #ffe6e6;        /* Nền tổng thể */
+    --glass-bg: rgba(255, 255, 255, 0.15); /* Hiệu ứng trong suốt mờ */
+    --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+    --transition-speed: 0.3s;           /* Tốc độ thao tác */
+    --text-color: #333;                 /* Màu chữ chung */
+    --box-shadow-color: rgba(0,0,0,0.1); /* Màu bóng mờ */
+    --border-radius: 15px;             /* Bán kính bo cong */
+    --hero-height: 100vh;              /* Chiều cao tối thiểu cho Hero */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================= */
+/*           CƠ BẢN             */
+/* ============================= */
+html {
+    scroll-behavior: smooth;  /* Hiệu ứng cuộn mượt */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--background-color), #fff0f3);
+    color: var(--text-color);
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+/* ============================= */
+/*      HIỆU ỨNG GLASSMORPHIC    */
+/* ============================= */
+.glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: var(--glass-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 32px var(--box-shadow-color);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+.glass-effect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px var(--box-shadow-color);
+}
+
+/* ============================= */
+/*     NÚT NHẠC (MUSIC CONTROL) */
+/* ============================= */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.music-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease;
+    position: relative;
+    box-shadow: 0 4px 8px var(--box-shadow-color);
+}
+.music-btn:hover {
+    transform: scale(1.1);
+}
+
+.music-tooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+.music-btn:hover .music-tooltip {
+    opacity: 1;
+}
+
+/* ============================= */
+/*      HIỆU ỨNG TRÁI TIM BAY    */
+/* ============================= */
+@keyframes floatingHeart {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+.floating-hearts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Không cản trở thao tác chuột */
+    z-index: 0;
+}
+.heart {
+    position: absolute;
+    color: var(--primary-color);
+    font-size: 20px;
+    animation: floatingHeart 15s linear infinite;
+}
+
+/* ============================= */
+/*          THANH NAVBAR         */
+/* ============================= */
+.navbar-custom {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.nav-link {
+    position: relative;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 5px 0;
+    margin: 0 10px;
+    transition: color var(--transition-speed) ease;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width var(--transition-speed) ease;
+}
+.nav-link:hover {
+    color: var(--primary-color);
+}
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* ============================= */
+/*         HERO SECTION          */
+/* ============================= */
+.hero-section {
+    min-height: var(--hero-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(120deg, #fff0f3, var(--background-color));
+}
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeInUp 1s ease;
+}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================= */
+/*          NÚT PHÁT SÁNG        */
+/* ============================= */
+.glow-button {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    box-shadow: 0 4px 8px var(--box-shadow-color);
+}
+.glow-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 65%);
+    transform: rotate(45deg);
+    animation: glowEffect 3s infinite;
+}
+@keyframes glowEffect {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
+}
+.glow-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px var(--box-shadow-color);
+}
+
+/* ============================= */
+/*        HIỆU ỨNG NỘI DUNG      */
+/* ============================= */
+.fade-in {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 1.2s forwards;
+}
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+.slide-up-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================= */
+/*          GALLERY GRID         */
+/* ============================= */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    transition: transform var(--transition-speed) ease;
+    box-shadow: 0 4px 8px var(--box-shadow-color);
+}
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px var(--box-shadow-color);
+}
+.overlay {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: bottom var(--transition-speed) ease;
+    text-align: center;
+    padding: 1rem;
+}
+.gallery-item:hover .overlay {
+    bottom: 0;
+}
+
+/* ============================= */
+/*       HIỆU ỨNG CHỮ SHINE      */
+/* ============================= */
+.shine-text {
+    position: relative;
+    background: linear-gradient(90deg, #000, #fff, #000);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    animation: shine 3s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+@keyframes shine {
+    0% { background-position: -500%; }
+    100% { background-position: 500%; }
+}
+
+/* ============================= */
+/*        THIẾT KẾ PHẢN HỒI     */
+/* ============================= */
+@media (max-width: 768px) {
+    .navbar-custom ul {
+        display: none; /* Ẩn menu khi màn hình nhỏ */
+    }
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-content {
+        padding: 1rem;
+    }
+}

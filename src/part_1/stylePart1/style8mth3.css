@@ -1,0 +1,107 @@
+/* Thêm các biến màu mới */
+:root {
+    --primary-pink: #FFB6C1;
+    --secondary-pink: #FFC0CB;
+    --accent-red: #FF69B4;
+    --light-pink: #FFF0F5;
+    --deep-pink: #FF1493;
+    --white: #FFFFFF;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --gradient-start: #FFF0F5;
+    --gradient-end: #FFB6C1;
+}
+
+/* Cải thiện Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Cải thiện Gallery */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover::before {
+    opacity: 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Thêm hiệu ứng Lightbox */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Cải thiện Responsive */
+@media (max-width: 768px) {
+    .gallery-item {
+        aspect-ratio: 1;
+    }
+
+    .message-card {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .main-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* Thêm hiệu ứng Loading */
+.loading-animation {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--light-pink);
+    border-top-color: var(--deep-pink);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

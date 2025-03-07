@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Information</title>
+</head>
+<style>
+    body {
+        font-family: 'Quicksand', sans-serif;
+        background-color: #f5f6fa;
+        margin: 0;
+        padding: 0;
+        color: #2c3e50;
+    }
+
+    .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    header {
+        background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        border-radius: 20px;
+        margin: 20px auto;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    header h1 {
+        margin: 0;
+        font-weight: 700;
+        color: white;
+    }
+
+    .info-section {
+        background: white;
+        border-radius: 25px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        margin-top: 40px;
+    }
+
+    .info-section h2 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    .list-group {
+        border-radius: 15px;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .list-group-item {
+        padding: 15px 20px;
+        margin-bottom: 8px;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 10px !important;
+        transition: all 0.3s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
+    }
+
+    .list-group-item i {
+        margin-right: 10px;
+        color: #2980b9;
+    }
+
+    .list-group-item a {
+        color: #3498db;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .list-group-item a:hover {
+        color: #2980b9;
+    }
+
+    .backHome {
+        margin-top: 30px;
+        background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        border: none;
+        border-radius: 15px;
+        padding: 12px 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;
+        font-weight: 600;
+    }
+
+    .backHome:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(41,128,185,0.4);
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            padding: 10px;
+        }
+
+        header {
+            margin: 10px;
+            padding: 20px;
+        }
+
+        .info-section {
+            padding: 20px;
+        }
+
+        .list-group {
+            max-width: 100%;
+        }
+    }
+</style>
+<body>
+<div class="main-container">
+    <header>
+        <h1>Có thể em sẽ cần...</h1>
+    </header>
+
+    <div class="info-section">
+        <h2>Thông tin cá nhân của anh</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><i class="fas fa-user"></i><strong>Name: </strong> Đoàn Văn Ngọc (Đoàn Bình An)</li>
+            <li class="list-group-item"><i class="fas fa-birthday-cake"></i><strong>Birthday: </strong> 31/07/2005</li>
+            <li class="list-group-item"><i class="fas fa-map-marker-alt"></i><strong>Address: </strong><a href="https://maps.app.goo.gl/R9Mjm9pQ1FEf6ncP8" target="_blank">Địa chỉ nhà anh</a></li>
+            <li class="list-group-item"><i class="fas fa-envelope"></i><strong>Email: </strong><a href="mailto:binhan31072005@icloud.com">binhan31072005@icloud.com</a></li>
+            <li class="list-group-item"><i class="fas fa-phone"></i><strong>Phone Number: </strong><a href="tel:0345515986">(84+) 345515986</a></li>
+            <li class="list-group-item"><i class="fab fa-facebook"></i><strong>Facebook: </strong><a href="https://www.facebook.com/doanvanngoc05">Đoàn Bình An</a></li>
+            <li class="list-group-item"><i class="fas fa-comments"></i><strong>Zalo: </strong><a href="zalo://send?phone=84345515986">Zalo của anh</a></li>
+        </ul>
+
+    </div>
+    <button class="backHome" onclick="backHomeInfo()">Quay về trang chủ</button>
+</div>
+</body>
+<script src="../js/app.js">
+    // function backHomeInfo() {
+    //     window.location.href = "../index.html";
+    // }
+</script>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc mừng 8/3 - Ngày của em</title>
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Pacifico&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylePart1/style8mth3.css">
+</head>
+<body>
+<!-- Loading Screen -->
+<div id="loading-screen">
+    <div class="heart-loader"></div>
+    <p>Đang chuẩn bị món quà đặc biệt...</p>
+</div>
+
+<!-- Music Control -->
+<div class="music-control">
+    <button id="toggleMusic" class="btn-music">
+        <i class="fas fa-music"></i>
+    </button>
+    <div class="music-info">Now Playing: Your Song</div>
+</div>
+
+<!-- Main Content -->
+<div class="container-fluid">
+    <!-- Header Section -->
+    <section class="header-section">
+        <div class="floating-hearts"></div>
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <h1 class="main-title animate__animated animate__fadeInDown">
+                    Chúc mừng ngày 8/3
+                </h1>
+                <div class="subtitle animate__animated animate__fadeInUp">
+                    Gửi tặng người con gái đặc biệt
+                </div>
+                <div class="date-counter">
+                    <p>Chúng ta đã bên nhau được: <span id="daysCounter">0</span> ngày</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="section-title">Những khoảnh khắc đẹp</h2>
+            </div>
+        </div>
+        <div class="photo-gallery">
+            <!-- Photos will be added dynamically -->
+        </div>
+    </section>
+
+    <!-- Gift Section -->
+    <section class="gift-section">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-8 text-center">
+                <div class="gift-box" id="giftBox">
+                    <div class="gift-lid"></div>
+                    <div class="gift-container">
+                        <img src="assets/gift-box.png" alt="Hộp quà">
+                    </div>
+                    <div class="gift-ribbon"></div>
+                    <div class="gift-sparkles"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message Section -->
+    <section class="message-section" id="messageCard">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-sm-10">
+                <div class="message-card">
+                    <div class="message-content">
+                        <p class="message-line fancy-font">Mến gửi em...</p>
+                        <div class="typed-message"></div>
+                        <div class="message-body">
+                            <p class="message-line">Em là ánh nắng trong cuộc đời anh</p>
+                            <p class="message-line">Là động lực để anh cố gắng mỗi ngày</p>
+                            <p class="message-line">Cảm ơn em đã luôn bên cạnh và ủng hộ anh</p>
+                            <p class="message-line">Chúc em ngày 8/3 thật hạnh phúc và xinh đẹp</p>
+                        </div>
+                        <p class="signature fancy-font">Từ người luôn yêu thương em</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Elements -->
+    <section class="interactive-section">
+        <div class="love-meter">
+            <h3>Đo độ yêu thương</h3>
+            <div class="heart-container">
+                <div class="heart-fill"></div>
+            </div>
+            <button class="measure-btn">Đo ngay</button>
+        </div>
+    </section>
+</div>
+
+<!-- Audio Elements -->
+<audio id="bgMusic" loop>
+    <source src="assets/background-music.mp3" type="audio/mpeg">
+</audio>
+<audio id="clickSound">
+    <source src="assets/click.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="js/8mth3.js"></script>
+</body>
+</html>
