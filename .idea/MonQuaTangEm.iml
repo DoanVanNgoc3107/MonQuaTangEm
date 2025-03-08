@@ -12,5 +12,6 @@
     <orderEntry type="library" name="typed.js" level="application" />
     <orderEntry type="library" name="gsap" level="application" />
     <orderEntry type="library" name="animate.css" level="application" />
+    <orderEntry type="library" name="lightbox2" level="application" />
   </component>
 </module>

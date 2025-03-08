@@ -3,122 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chúc mừng 8/3 - Ngày của em</title>
-    <!-- Stylesheets -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Pacifico&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Gửi tặng người con gái tôi yêu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <link rel="stylesheet" href="stylePart1/style8mth3.css">
 </head>
-<body>
-<!-- Loading Screen -->
-<div id="loading-screen">
-    <div class="heart-loader"></div>
-    <p>Đang chuẩn bị món quà đặc biệt...</p>
-</div>
-
-<!-- Music Control -->
-<div class="music-control">
-    <button id="toggleMusic" class="btn-music">
-        <i class="fas fa-music"></i>
+<body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="100">
+ Nút phát nhạc cố định
+<div class="music-control" id="musicControl">
+    <button id="toggleMusic" class="btn-music playing">
+        <span class="music-icon"><i class="fas fa-music"></i></span>
+        <span class="play-text">Tắt nhạc</span>
     </button>
-    <div class="music-info">Now Playing: Your Song</div>
 </div>
 
-<!-- Main Content -->
-<div class="container-fluid">
-    <!-- Header Section -->
-    <section class="header-section">
-        <div class="floating-hearts"></div>
-        <div class="row justify-content-center">
-            <div class="col-12 text-center">
-                <h1 class="main-title animate__animated animate__fadeInDown">
-                    Chúc mừng ngày 8/3
-                </h1>
-                <div class="subtitle animate__animated animate__fadeInUp">
-                    Gửi tặng người con gái đặc biệt
-                </div>
-                <div class="date-counter">
-                    <p>Chúng ta đã bên nhau được: <span id="daysCounter">0</span> ngày</p>
+<!-- YouTube API -->
+<div id="youtube-player" style="display:none;"></div>
+
+<!-- Màn hình loading -->
+<div id="loading-screen">
+    <div class="loading-content">
+        <h2>Loading...</h2>
+        <div class="hearts-container"></div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Header với Navigation -->
+<header class="header-index" id="home">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Ngày của em</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#messages">Love</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#memories">Memory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gift">Gift</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Banner chính -->
+<section class="hero-section animate__animated animate__fadeIn" id="banner">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="display-4 fw-bold mb-4 reveal-text">Chúc mừng ngày 8/3!</h1>
+                <p class="lead mb-4 reveal-text">Hôm nay là 8 tháng 3... xem anh đã dành những gì cho em bé nhaa...</p>
+                <a href="#messages" class="btn btn-love px-4 py-2 reveal-text">Gecc goo</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="floating-hearts-container">
+                    <img src="../images/em.jpg" alt="Chúng ta" class="img-fluid rounded-circle hero-image animate__animated animate__zoomIn">
+                    <div class="floating-hearts"></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Gallery Section -->
-    <section class="gallery-section">
+<!-- Phần lời yêu thương -->
+<section class="section-padding bg-light" id="messages">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h2 class="section-title reveal-text">Những điều anh thấy nào :</h2>
+                <p class="section-subtitle reveal-text">Để xem dngoc thấy gì ở dĩm hương</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="love-card card h-100 reveal-text animate__animated animate__fadeInLeft">
+                    <div class="card-body text-center">
+                        <div class="card-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="card-title">QUÁ XINH ĐẸP</h3>
+                        <p class="card-text">CHẮC CHẮN LÀ SIÊU XINH ĐẸP NHỨT THẾ GIỚI  !!!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="love-card card h-100 reveal-text animate__animated animate__fadeInUp">
+                    <div class="card-body text-center">
+                        <div class="card-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="card-title">CỨNG ĐẦU SỐ 1 THẾ GIỚI</h3>
+                        <p class="card-text">CỨNG ĐẦU SỐ 2 KHÔNG AI SỐ 1 LUÔNN</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="love-card card h-100 reveal-text animate__animated animate__fadeInRight">
+                    <div class="card-body text-center">
+                        <div class="card-icon">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                        <h3 class="card-title">RẤT THÚIIIIII</h3>
+                        <p class="card-text">YEAH YEAH CHẮC CHẮN RẤT RẤT THÚI THÚII :></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="#memories" class="btn btn-love px-4 py-2 reveal-text">Tiếp tục nào :></a>
+        </div>
+    </div>
+</section>
+
+<!-- Phần kỷ niệm -->
+<section class="section-padding" id="memories">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h2 class="section-title reveal-text">Picture</h2>
+                <p class="section-subtitle reveal-text">Ai mà Xinh Đẹp quá vậy ta ?</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="memory-item reveal-text animate__animated animate__zoomIn">
+                    <div class="memory-image">
+                        <img src="../images/you.jpg" alt="Kỷ niệm 1" class="img-fluid">
+                        <div class="memory-overlay">
+                            <div class="memory-text">
+                                <h4 class="text">Baby</h4>
+<!--                                <p>Ngày 20/04/2023</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="memory-item reveal-text animate__animated animate__zoomIn" data-wow-delay="0.2s">
+                    <div class="memory-image">
+                        <img src="../images/bimbim.jpg" alt="Kỷ niệm 2" class="img-fluid">
+                        <div class="memory-overlay">
+                            <div class="memory-text">
+                                <h4 class="text">"Bim Bimm"</h4>
+<!--                                <p>Ngày 28/05/2023</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="memory-item reveal-text animate__animated animate__zoomIn" data-wow-delay="0.4s">
+                    <div class="memory-image">
+                        <img src="../images/dimhuongthui.jpg" alt="Kỷ niệm 3" class="img-fluid">
+                        <div class="memory-overlay">
+                            <div class="memory-text">
+                                <h4 class="text">"Nhiếp ảnh gia"</h4>
+<!--                                <p>Ngày 10/07/2023</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="#gift" class="btn btn-love px-4 py-2 reveal-text">Xem món quà đặc biệt</a>
+        </div>
+    </div>
+</section>
+
+<!-- Phần món quà -->
+<section class="section-padding bg-light" id="gift">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h2 class="section-title reveal-text">Món quà đặc biệt</h2>
+                <p class="section-subtitle reveal-text">Dành tặng riêng cho em</p>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="gift-image reveal-text animate__animated animate__fadeInLeft">
+                    <img id="qua" src="../images/qua.png" alt="Món quà" class="img-fluid rounded shadow">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="gift-content reveal-text animate__animated animate__fadeInRight">
+                    <h3 class="mb-4">Đôi lời của anh:</h3>
+                    <p>Xin chào bạn nhỏ, vậy là hôm nay đã tới ngày mồng 8 tháng 3 rồi</p>
+                    <p>Nhân ngày Quốc tế Phụ nữ, anh muốn gửi những lời chúc tốt đẹp nhất tới em bé của anh - Lee Thị Dĩm Hương cute phô mai que</p>
+                    <p>Chúc em bé của anh ngày càng XINH ĐẸP hơn hơn nữa nữa..</p>
+                    <p>Chăm ngoan học giỏi, kiếm thật nhiều danh hiệu Sinh Viên Tiêu Biểu</p>
+                    <p>Mau ăn chóng lớn hơn nữa..</p>
+                    <p class="bold-text">Và luôn Hạnh Phúc và cười thật nhiều khi bên anh nkaa!!!</p>
+                    <p class="signature">Happy Woman's Day</p>
+
+                    <div class="gift-buttons mt-4">
+                        <button class="btn btn-love me-3" id="openLetter">
+                            <i class="fas fa-envelope me-2"></i>Hãy<a style="color: white; list-style-type: none;" href="https://www.facebook.com/doanvanngoc05"> vào đây </a> để chọn quà nkaa
+                        </button>
+<!--                        <button class="btn btn-love-alt" id="openSurprise">-->
+<!--                            <i class="fas fa-gift me-2"></i>Bất ngờ thú vị-->
+<!--                        </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal thư tình -->
+<div class="modal fade" id="letterModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="love-letter">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="letter-content">
+                        <h3>Thư tình gửi em</h3>
+                        <p>Em yêu,</p>
+                        <p>Có những điều anh muốn nói với em, nhưng đôi khi lời nói không thể hiện hết được tình cảm của anh. Anh viết những dòng này để em biết rằng em quan trọng với anh như thế nào.</p>
+                        <p>Mỗi khoảnh khắc bên em đều là những kỷ niệm đẹp mà anh trân trọng. Nụ cười của em như ánh nắng sưởi ấm trái tim anh, và tiếng cười của em là âm thanh tuyệt vời nhất trên đời.</p>
+                        <p>Anh hứa sẽ nắm tay em đi trọn cuộc đời này, cùng em vượt qua mọi khó khăn, chia sẻ mọi niềm vui và nỗi buồn.</p>
+                        <p>Cảm ơn em vì đã đến và làm cuộc sống của anh trở nên ý nghĩa hơn.</p>
+                        <p>Yêu em rất nhiều!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal bất ngờ -->
+<div class="modal fade" id="surpriseModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-0">
+                <div class="surprise-content">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h3>Bất ngờ cho em!</h3>
+                    <div class="surprise-animation">
+                        <i class="fas fa-heart heart-beat"></i>
+                    </div>
+                    <p>Anh đã chuẩn bị một món quà đặc biệt và sẽ trao tận tay em trong ngày gặp nhau lần tới.</p>
+                    <p class="hint">Gợi ý: Đó là món đồ mà em đã thích từ lâu...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="section-title">Những khoảnh khắc đẹp</h2>
+                <p>From Doan Van Ngoc to Le Thi Diem Huong</p>
+                <p>Author: Doan Van Ngoc</p>
             </div>
         </div>
-        <div class="photo-gallery">
-            <!-- Photos will be added dynamically -->
-        </div>
-    </section>
-
-    <!-- Gift Section -->
-    <section class="gift-section">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-sm-8 text-center">
-                <div class="gift-box" id="giftBox">
-                    <div class="gift-lid"></div>
-                    <div class="gift-container">
-                        <img src="assets/gift-box.png" alt="Hộp quà">
-                    </div>
-                    <div class="gift-ribbon"></div>
-                    <div class="gift-sparkles"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Message Section -->
-    <section class="message-section" id="messageCard">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-sm-10">
-                <div class="message-card">
-                    <div class="message-content">
-                        <p class="message-line fancy-font">Mến gửi em...</p>
-                        <div class="typed-message"></div>
-                        <div class="message-body">
-                            <p class="message-line">Em là ánh nắng trong cuộc đời anh</p>
-                            <p class="message-line">Là động lực để anh cố gắng mỗi ngày</p>
-                            <p class="message-line">Cảm ơn em đã luôn bên cạnh và ủng hộ anh</p>
-                            <p class="message-line">Chúc em ngày 8/3 thật hạnh phúc và xinh đẹp</p>
-                        </div>
-                        <p class="signature fancy-font">Từ người luôn yêu thương em</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Interactive Elements -->
-    <section class="interactive-section">
-        <div class="love-meter">
-            <h3>Đo độ yêu thương</h3>
-            <div class="heart-container">
-                <div class="heart-fill"></div>
-            </div>
-            <button class="measure-btn">Đo ngay</button>
-        </div>
-    </section>
-</div>
-
-<!-- Audio Elements -->
-<audio id="bgMusic" loop>
-    <source src="assets/background-music.mp3" type="audio/mpeg">
-</audio>
-<audio id="clickSound">
-    <source src="assets/click.mp3" type="audio/mpeg">
-</audio>
+    </div>
+</footer>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 <script src="js/8mth3.js"></script>
+
 </body>
 </html>
