@@ -1,4 +1,6 @@
-// Gallery functionality
+// ================================
+// GALLERY FUNCTIONALITY
+// ================================
 document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.querySelector('.gallery-wrapper');
     const slides = document.querySelectorAll('.gallery-slide');
@@ -6,7 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextButton = document.querySelector('.gallery-next');
     const dotsContainer = document.querySelector('.gallery-dots');
 
+    if (!wrapper || slides.length === 0) {
+        console.log('[v0] Gallery not found, skipping gallery initialization');
+        return;
+    }
+
     let currentSlide = 0;
+    let autoSlideTimeout;
 
     // Create dots
     slides.forEach((_, index) => {
@@ -26,49 +34,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function goToSlide(n) {
-        currentSlide = n;
+        currentSlide = n % slides.length;
+        if (currentSlide < 0) currentSlide = slides.length - 1;
+        
         const offset = -currentSlide * 100;
         wrapper.style.transform = `translateX(${offset}%)`;
         updateDots();
+        resetAutoSlide();
     }
 
     function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        goToSlide(currentSlide);
+        goToSlide(currentSlide + 1);
     }
 
     function prevSlide() {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        goToSlide(currentSlide);
+        goToSlide(currentSlide - 1);
+    }
+
+    function resetAutoSlide() {
+        clearTimeout(autoSlideTimeout);
+        autoSlideTimeout = setTimeout(nextSlide, 5000);
     }
 
     prevButton.addEventListener('click', prevSlide);
     nextButton.addEventListener('click', nextSlide);
 
     // Auto slide every 5 seconds
-    let slideInterval = setInterval(nextSlide, 5000);
+    resetAutoSlide();
 
     // Pause auto slide on hover
     wrapper.addEventListener('mouseenter', () => {
-        clearInterval(slideInterval);
+        clearTimeout(autoSlideTimeout);
     });
 
     wrapper.addEventListener('mouseleave', () => {
-        slideInterval = setInterval(nextSlide, 5000);
+        resetAutoSlide();
     });
 
-    // Touch events for mobile
+    // Touch events for mobile swipe
     let touchStartX = 0;
     let touchEndX = 0;
 
     wrapper.addEventListener('touchstart', e => {
         touchStartX = e.changedTouches[0].screenX;
-    });
+    }, false);
 
     wrapper.addEventListener('touchend', e => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
-    });
+    }, false);
 
     function handleSwipe() {
         const swipeThreshold = 50;
@@ -82,16 +96,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    console.log('[v0] Gallery initialized successfully');
 });
 
-// Quay vể trang chủ
-function backHome() {
-    window.location.href = 'index.html';
-}
-
-// Dếm ngày
+// ================================
+// DAYS COUNTER
+// ================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to calculate the number of days between two dates
     function calculateDays(startDate) {
         const start = new Date(startDate);
         const today = new Date();
@@ -99,132 +111,92 @@ document.addEventListener('DOMContentLoaded', function() {
         return Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     }
 
-    // Set the start date
     const startDate = '2023-09-18';
-
-    // Get the number of days
     const daysCount = calculateDays(startDate);
 
-    // Display the result in an element with id 'days-counter'
-    document.getElementById('days-counter').textContent = `${daysCount}`;
+    const daysCounterElement = document.getElementById('days-counter');
+    if (daysCounterElement) {
+        daysCounterElement.textContent = `${daysCount}`;
+        console.log('[v0] Days counter updated:', daysCount);
+    }
 });
 
+// ================================
+// SMOOTH SCROLL NAVIGATION
+// ================================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// ================================
+// NAVBAR ACTIVE STATE
+// ================================
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// ================================
+// DROPDOWN MOBILE FIX
+// ================================
 document.addEventListener('DOMContentLoaded', function() {
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Only prevent default if it's a link to a page
+            if (!this.getAttribute('href').includes('#')) {
+                return; // Allow normal navigation
+            }
+        });
+    });
+
+    // Close dropdowns when clicking outside
     document.addEventListener('click', function(event) {
-        const dropdown = document.querySelector('.dropdown-menu');
-        const isClickInside = dropdown.contains(event.target);
-
-        if (!isClickInside) {
-            dropdown.classList.remove('show');
+        const isClickInsideDropdown = event.target.closest('.dropdown');
+        if (!isClickInsideDropdown) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
         }
-    });
-
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
-    dropdownToggle.addEventListener('click', function(event) {
-        event.stopPropagation();
-        const dropdown = this.nextElementSibling;
-        dropdown.classList.toggle('show');
     });
 });
 
-function backHomeInfo() {
-    window.location.href = '../index.html';
-}
+// ================================
+// ANIMATION ON SCROLL (Optional enhancement)
+// ================================
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
 
-// script.js
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize fireworks
-    const fireworks = new Fireworks(document.getElementById('fireworks'), {
-        opacity: 0.5,
-        acceleration: 1.05,
-        friction: 0.97,
-        gravity: 1.5,
-        particles: 50,
-        explosion: 5,
-        intensity: 30,
-        flickering: 50,
-        lineStyle: 'round',
-        hue: {
-            min: 0,
-            max: 360
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
         }
     });
+}, observerOptions);
 
-    fireworks.start();
-
-    // Background music control
-    const music = document.getElementById('background-music');
-    const musicBtn = document.getElementById('toggleMusic');
-
-    music.volume = 0.3;
-
-    musicBtn.addEventListener('click', function() {
-        if (music.paused) {
-            music.play();
-            musicBtn.innerHTML = '<i class="fas fa-music"></i>';
-        } else {
-            music.pause();
-            musicBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-        }
-    });
-
-    // Countdown timer
-    function updateCountdown() {
-        const now = new Date();
-        const tet = new Date('2025-01-29T00:00:00');
-        const diff = tet - now;
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('countdown-timer').textContent =
-            `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây nữa đến Tết`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    // Gift box animations
-    function openGift(giftNumber) {
-        const giftBox = document.querySelector(`.gift-box:nth-child(${giftNumber})`);
-        if (!giftBox.classList.contains('opened')) {
-            giftBox.classList.add('opened');
-            giftBox.querySelector('.gift-lid').style.transform = 'rotateX(-180deg)';
-            setTimeout(() => {
-                giftBox.querySelector('.gift-content').style.opacity = '1';
-            }, 500);
-        }
-    }
-
-    // Lucky money envelope
-    function openEnvelope() {
-        const envelope = document.querySelector('.envelope');
-        const messages = [
-            "Chúc em vạn sự như ý! 🎊",
-            "Năm mới phát tài phát lộc! 💰",
-            "Tiền vào như nước! 💸",
-            "Sung túc quanh năm! 🧧"
-        ];
-
-        if (!envelope.classList.contains('opened')) {
-            envelope.classList.add('opened');
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-            envelope.querySelector('.envelope-content').textContent = randomMessage;
-        }
-    }
-
-    // Initialize Bau Cua game
-    const bauCuaGame = {
-        // Previous Bau Cua game logic
-    };
-
-    bauCuaGame.init();
-
-    // Clean up when leaving page
-    window.addEventListener('beforeunload', function() {
-        music.pause();
-        fireworks.stop();
-    });
+document.querySelectorAll('.instruction-card, .timeline-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    observer.observe(el);
 });
+
+console.log('[v0] App.js loaded successfully');
