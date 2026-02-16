@@ -26,7 +26,7 @@ const gameOverSound = document.getElementById('gameOverSound');
 
 // Game Variables
 let gameSpeed = 2.5;
-let gravity = 0.5; // Giảm từ 0.8 để rơi chậm hơn
+let gravity = 0.35; // Giảm xuống để rơi chậm hơn, tăng thời gian bay
 let score = 0;
 let obstaclesPassed = 0;
 let coins = 0;
@@ -54,8 +54,8 @@ let canDoubleJump = false;
 const difficulties = {
     easy: { 
         speed: 2.5, 
-        minGap: 400, 
-        maxGap: 650, 
+        minGap: 500, 
+        maxGap: 800, 
         speedIncrease: 0.08,
         collectibleRate: 0.025, // 2.5% - Nhiều item hơn
         powerUpRate: 0.005,      // 0.5%
@@ -63,8 +63,8 @@ const difficulties = {
     },
     normal: { 
         speed: 3.5, 
-        minGap: 250, 
-        maxGap: 450, 
+        minGap: 350, 
+        maxGap: 600, 
         speedIncrease: 0.12,
         collectibleRate: 0.015,  // 1.5%
         powerUpRate: 0.003,      // 0.3%
@@ -72,8 +72,8 @@ const difficulties = {
     },
     hard: { 
         speed: 5, 
-        minGap: 180, 
-        maxGap: 320, 
+        minGap: 250, 
+        maxGap: 450, 
         speedIncrease: 0.18,
         collectibleRate: 0.01,   // 1% - Ít item hơn
         powerUpRate: 0.002,      // 0.2%
@@ -380,16 +380,20 @@ function drawObstacle(obs) {
 // Draw Ground with Tiles
 function drawGround() {
     const tileWidth = 70;
-    const tileHeight = 70;
+    const tileHeight = 35; // Chỉ vẽ nửa chiều cao
     const numTiles = Math.ceil(canvas.width / tileWidth) + 1;
     
-    // Draw ground tiles
+    // Draw ground tiles - chỉ lấy nửa trên của mỗi tile
     if (currentGroundTile && currentGroundTile.complete) {
         for (let i = 0; i < numTiles; i++) {
+            // drawImage với 9 tham số: (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+            // Chỉ lấy nửa trên của sprite (sy=0, sHeight=nửa chiều cao gốc)
             ctx.drawImage(
                 currentGroundTile,
-                i * tileWidth,
-                groundHeight,
+                0, 0,  // Bắt đầu từ góc trên bên trái của sprite
+                70, 35,  // Chỉ lấy nửa trên của sprite 70x70
+                i * tileWidth,  // Vị trí x trên canvas
+                groundHeight,   // Vị trí y trên canvas
                 tileWidth,
                 tileHeight
             );
@@ -397,7 +401,7 @@ function drawGround() {
     } else {
         // Fallback to simple ground
         ctx.fillStyle = '#d4a574';
-        ctx.fillRect(0, groundHeight, canvas.width, canvas.height - groundHeight);
+        ctx.fillRect(0, groundHeight, canvas.width, tileHeight);
     }
     
     // Draw grass on top of ground for decoration
@@ -500,6 +504,13 @@ function updateObstacles() {
             obs.counted = true;
             obstaclesPassed++;
             obstaclesCountDisplay.textContent = obstaclesPassed;
+            
+            // Tăng điểm khi vượt qua chướng ngại vật
+            score += 100;
+            scoreDisplay.textContent = Math.floor(score / 10);
+            
+            // Tạo particle hiệu ứng khi vượt qua
+            createParticle(obs.x + obs.width / 2, obs.y, '#10b981');
         }
     });
     
