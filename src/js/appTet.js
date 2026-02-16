@@ -24,16 +24,6 @@ const resultDisplay = document.getElementById('result-display');
 // Audio Elements
 const diceSound = document.getElementById('diceSound');
 const winSound = document.getElementById('winSound');
-const bgMusic = document.getElementById('bgMusic');
-let musicPlaying = false;
-
-// Initialize Music
-document.body.addEventListener('click', () => {
-    if (!musicPlaying) {
-        bgMusic.play();
-        musicPlaying = true;
-    }
-});
 
 // Betting System
 betAmounts.forEach(btn => {
