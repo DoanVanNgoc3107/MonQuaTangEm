@@ -25,7 +25,7 @@ const jumpSound = document.getElementById('jumpSound');
 const gameOverSound = document.getElementById('gameOverSound');
 
 // Game Variables
-let gameSpeed = 4;
+let gameSpeed = 2.5;
 let gravity = 0.8;
 let score = 0;
 let obstaclesPassed = 0;
@@ -41,6 +41,7 @@ let gameRunning = false;
 let gameStarted = false;
 let gamePaused = false;
 let soundEnabled = true;
+let selectedCharacter = 'bunny1'; // bunny1 or bunny2
 
 // Power-up states
 let hasShield = false;
@@ -51,9 +52,9 @@ let canDoubleJump = false;
 
 // Difficulty Settings
 const difficulties = {
-    easy: { speed: 3.5, minGap: 250, maxGap: 500, speedIncrease: 0.2 },
-    normal: { speed: 4, minGap: 140, maxGap: 280, speedIncrease: 0.4 },
-    hard: { speed: 6, minGap: 100, maxGap: 200, speedIncrease: 0.5 }
+    easy: { speed: 2.5, minGap: 300, maxGap: 550, speedIncrease: 0.1 },
+    normal: { speed: 3.5, minGap: 200, maxGap: 350, speedIncrease: 0.15 },
+    hard: { speed: 5, minGap: 150, maxGap: 250, speedIncrease: 0.2 }
 };
 
 let currentDifficulty = 'easy';
@@ -65,6 +66,129 @@ recordObstaclesEl.textContent = recordObstacles;
 gamesPlayedEl.textContent = gamesPlayed;
 totalScoreEl.textContent = totalScore;
 
+// ==================== LOAD GAME SPRITES ====================
+// Spritesheet
+const spritesheet = new Image();
+spritesheet.src = '../images/games/Spritesheets/spritesheet_jumper.png';
+
+// Player Sprites (Bunny 1)
+const playerSprites = {
+    bunny1: {
+        stand: new Image(),
+        jump: new Image(),
+        walk1: new Image(),
+        walk2: new Image(),
+        hurt: new Image()
+    },
+    bunny2: {
+        stand: new Image(),
+        jump: new Image(),
+        walk1: new Image(),
+        walk2: new Image(),
+        hurt: new Image()
+    }
+};
+
+playerSprites.bunny1.stand.src = '../images/games/PNG/Players/bunny1_stand.png';
+playerSprites.bunny1.jump.src = '../images/games/PNG/Players/bunny1_jump.png';
+playerSprites.bunny1.walk1.src = '../images/games/PNG/Players/bunny1_walk1.png';
+playerSprites.bunny1.walk2.src = '../images/games/PNG/Players/bunny1_walk2.png';
+playerSprites.bunny1.hurt.src = '../images/games/PNG/Players/bunny1_hurt.png';
+
+playerSprites.bunny2.stand.src = '../images/games/PNG/Players/bunny2_stand.png';
+playerSprites.bunny2.jump.src = '../images/games/PNG/Players/bunny2_jump.png';
+playerSprites.bunny2.walk1.src = '../images/games/PNG/Players/bunny2_walk1.png';
+playerSprites.bunny2.walk2.src = '../images/games/PNG/Players/bunny2_walk2.png';
+playerSprites.bunny2.hurt.src = '../images/games/PNG/Players/bunny2_hurt.png';
+
+// Obstacle/Enemy Sprites
+const obstacleSprites = {
+    spike: new Image(),
+    spikeBall: new Image(),
+    flyMan: new Image(),
+    spikeMan: new Image()
+};
+
+obstacleSprites.spike.src = '../images/games/PNG/Environment/spikes_top.png';
+obstacleSprites.spikeBall.src = '../images/games/PNG/Enemies/spikeBall1.png';
+obstacleSprites.flyMan.src = '../images/games/PNG/Enemies/flyMan_fly.png';
+obstacleSprites.spikeMan.src = '../images/games/PNG/Enemies/spikeMan_stand.png';
+
+// Collectible Sprites (Coins/Items)
+const collectibleSprites = {
+    gold: new Image(),
+    silver: new Image(),
+    bronze: new Image(),
+    carrot: new Image()
+};
+
+collectibleSprites.gold.src = '../images/games/PNG/Items/gold_1.png';
+collectibleSprites.silver.src = '../images/games/PNG/Items/silver_1.png';
+collectibleSprites.bronze.src = '../images/games/PNG/Items/bronze_1.png';
+collectibleSprites.carrot.src = '../images/games/PNG/Items/carrot.png';
+
+// Power-up Sprites
+const powerUpSprites = {
+    shield: new Image(),
+    doubleJump: new Image(),
+    magnet: new Image(),
+    jetpack: new Image()
+};
+
+powerUpSprites.shield.src = '../images/games/PNG/Items/powerup_bubble.png';
+powerUpSprites.doubleJump.src = '../images/games/PNG/Items/powerup_wings.png';
+powerUpSprites.magnet.src = '../images/games/PNG/Items/jetpack_item.png';
+powerUpSprites.jetpack.src = '../images/games/PNG/Items/powerup_jetpack.png';
+
+// Background Sprites
+const backgroundLayers = {
+    layer1: new Image(),
+    layer2: new Image(),
+    layer3: new Image(),
+    layer4: new Image()
+};
+
+backgroundLayers.layer1.src = '../images/games/PNG/Background/bg_layer1.png';
+backgroundLayers.layer2.src = '../images/games/PNG/Background/bg_layer2.png';
+backgroundLayers.layer3.src = '../images/games/PNG/Background/bg_layer3.png';
+backgroundLayers.layer4.src = '../images/games/PNG/Background/bg_layer4.png';
+
+// Environment Sprites
+const environmentSprites = {
+    cactus: new Image(),
+    mushroom: new Image(),
+    grass: new Image()
+};
+
+environmentSprites.cactus.src = '../images/games/PNG/Environment/cactus.png';
+environmentSprites.mushroom.src = '../images/games/PNG/Environment/mushroom_red.png';
+environmentSprites.grass.src = '../images/games/PNG/Environment/grass1.png';
+
+// Ground Tiles Sprites
+const groundTiles = {
+    grass: new Image(),
+    grassBroken: new Image(),
+    sand: new Image(),
+    sandBroken: new Image(),
+    snow: new Image(),
+    stone: new Image(),
+    wood: new Image(),
+    cake: new Image()
+};
+
+groundTiles.grass.src = '../images/games/PNG/Environment/ground_grass.png';
+groundTiles.grassBroken.src = '../images/games/PNG/Environment/ground_grass_broken.png';
+groundTiles.sand.src = '../images/games/PNG/Environment/ground_sand.png';
+groundTiles.sandBroken.src = '../images/games/PNG/Environment/ground_sand_broken.png';
+groundTiles.snow.src = '../images/games/PNG/Environment/ground_snow.png';
+groundTiles.stone.src = '../images/games/PNG/Environment/ground_stone.png';
+groundTiles.wood.src = '../images/games/PNG/Environment/ground_wood.png';
+groundTiles.cake.src = '../images/games/PNG/Environment/ground_cake.png';
+
+// Select random ground tile type
+let currentGroundTile = groundTiles.grass;
+
+// ==================== GAME OBJECTS ====================
 // Player Object
 const player = {
     x: 50,
@@ -74,13 +198,11 @@ const player = {
     dy: 0,
     jumpPower: -16,
     grounded: false,
-    image: new Image()
-};
-
-// Set default player image
-player.image.src = '../images/tet-images/player.png';
-player.image.onerror = function() {
-    player.useRect = true;
+    currentSprite: playerSprites.bunny1.stand,
+    animationFrame: 0,
+    animationSpeed: 10,
+    animationCounter: 0,
+    state: 'stand' // stand, jump, walk, hurt
 };
 
 // Ground level
@@ -89,11 +211,12 @@ player.y = groundHeight - player.height;
 
 // Obstacle Array
 let obstacles = [];
-let obstacleImage = new Image();
-obstacleImage.src = '../images/tet-images/obstacle.png';
-obstacleImage.onerror = function() {
-    obstacleImage.useRect = true;
-};
+
+// Background parallax positions
+let bgLayer1X = 0;
+let bgLayer2X = 0;
+let bgLayer3X = 0;
+let bgLayer4X = 0;
 
 // Collectibles and Power-ups
 let collectibles = [];
@@ -143,52 +266,153 @@ function updateClouds() {
     });
 }
 
+// Update Background Parallax
+function updateBackground() {
+    if (gamePaused) return;
+    
+    // Update parallax layers at different speeds
+    bgLayer1X -= gameSpeed * 0.2; // Slowest (far background)
+    bgLayer2X -= gameSpeed * 0.4; // Medium speed
+    bgLayer3X -= gameSpeed * 0.6; // Faster
+    bgLayer4X -= gameSpeed * 0.8; // Fastest (near background)
+    
+    // Reset positions for infinite scrolling
+    if (bgLayer1X <= -canvas.width) bgLayer1X = 0;
+    if (bgLayer2X <= -canvas.width) bgLayer2X = 0;
+    if (bgLayer3X <= -canvas.width) bgLayer3X = 0;
+    if (bgLayer4X <= -canvas.width) bgLayer4X = 0;
+}
+
+// Update Player Animation
+function updatePlayerAnimation() {
+    if (gamePaused) return;
+    
+    // Get the current character sprites
+    const charSprites = playerSprites[selectedCharacter];
+    
+    // Update animation based on state
+    if (player.state === 'hurt') {
+        player.currentSprite = charSprites.hurt;
+    } else if (!player.grounded) {
+        player.currentSprite = charSprites.jump;
+    } else if (gameRunning) {
+        // Walking animation
+        player.animationCounter++;
+        if (player.animationCounter >= player.animationSpeed) {
+            player.animationCounter = 0;
+            player.animationFrame = (player.animationFrame + 1) % 2;
+            player.currentSprite = player.animationFrame === 0 ? charSprites.walk1 : charSprites.walk2;
+        }
+    } else {
+        player.currentSprite = charSprites.stand;
+    }
+}
+
 // Draw Player
 function drawPlayer() {
-    if (player.useRect || !player.image.complete) {
-        ctx.fillStyle = '#d62828';
+    // Draw player with current sprite
+    if (player.currentSprite && player.currentSprite.complete) {
+        ctx.drawImage(player.currentSprite, player.x, player.y, player.width, player.height);
+    } else {
+        // Fallback to simple rectangle
+        ctx.fillStyle = '#ff69b4';
         ctx.fillRect(player.x, player.y, player.width, player.height);
         ctx.fillStyle = 'white';
         ctx.fillRect(player.x + 10, player.y + 15, 8, 8);
         ctx.fillRect(player.x + 32, player.y + 15, 8, 8);
-        ctx.fillStyle = 'black';
-        ctx.fillRect(player.x + 15, player.y + 35, 20, 3);
-    } else {
-        ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
+    }
+    
+    // Draw shield effect if active
+    if (hasShield) {
+        ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(player.x + player.width/2, player.y + player.height/2, player.width/2 + 5, 0, Math.PI * 2);
+        ctx.stroke();
     }
 }
 
 // Draw Obstacle
 function drawObstacle(obs) {
-    if (obstacleImage.useRect || !obstacleImage.complete) {
-        ctx.fillStyle = '#2a9d8f';
-        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+    // Use the sprite assigned to this obstacle
+    if (obs.sprite && obs.sprite.complete) {
+        ctx.drawImage(obs.sprite, obs.x, obs.y, obs.width, obs.height);
     } else {
-        ctx.drawImage(obstacleImage, obs.x, obs.y, obs.width, obs.height);
+        // Fallback to simple rectangle
+        ctx.fillStyle = '#dc2626';
+        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+        // Draw spikes pattern
+        ctx.fillStyle = '#991b1b';
+        for(let i = 0; i < obs.width; i += 10) {
+            ctx.beginPath();
+            ctx.moveTo(obs.x + i, obs.y + obs.height);
+            ctx.lineTo(obs.x + i + 5, obs.y);
+            ctx.lineTo(obs.x + i + 10, obs.y + obs.height);
+            ctx.fill();
+        }
     }
 }
 
-// Draw Ground
+// Draw Ground with Tiles
 function drawGround() {
-    ctx.fillStyle = '#d4a574';
-    ctx.fillRect(0, groundHeight, canvas.width, canvas.height - groundHeight);
+    const tileWidth = 70;
+    const tileHeight = 70;
+    const numTiles = Math.ceil(canvas.width / tileWidth) + 1;
     
-    ctx.strokeStyle = '#b8935f';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(0, groundHeight);
-    ctx.lineTo(canvas.width, groundHeight);
-    ctx.stroke();
+    // Draw ground tiles
+    if (currentGroundTile && currentGroundTile.complete) {
+        for (let i = 0; i < numTiles; i++) {
+            ctx.drawImage(
+                currentGroundTile,
+                i * tileWidth,
+                groundHeight,
+                tileWidth,
+                tileHeight
+            );
+        }
+    } else {
+        // Fallback to simple ground
+        ctx.fillStyle = '#d4a574';
+        ctx.fillRect(0, groundHeight, canvas.width, canvas.height - groundHeight);
+    }
+    
+    // Draw grass on top of ground for decoration
+    if (environmentSprites.grass.complete) {
+        for (let i = 0; i < 10; i++) {
+            const x = (i * canvas.width / 10) + (Math.sin(Date.now() * 0.001 + i) * 5);
+            ctx.drawImage(environmentSprites.grass, x, groundHeight - 10, 20, 15);
+        }
+    }
 }
 
-// Draw Background
+// Draw Background with Parallax
 function drawBackground() {
+    // Sky gradient
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
     gradient.addColorStop(0, '#87ceeb');
     gradient.addColorStop(1, '#e0f6ff');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
+    // Draw parallax background layers if loaded
+    const layerHeight = 200;
+    const layerY = groundHeight - layerHeight;
+    
+    if (backgroundLayers.layer1.complete) {
+        // Far background - slowest
+        const layer1Width = canvas.width;
+        ctx.drawImage(backgroundLayers.layer1, bgLayer1X, layerY, layer1Width, layerHeight);
+        ctx.drawImage(backgroundLayers.layer1, bgLayer1X + layer1Width, layerY, layer1Width, layerHeight);
+    }
+    
+    if (backgroundLayers.layer2.complete) {
+        // Mid background
+        const layer2Width = canvas.width;
+        ctx.drawImage(backgroundLayers.layer2, bgLayer2X, layerY, layer2Width, layerHeight);
+        ctx.drawImage(backgroundLayers.layer2, bgLayer2X + layer2Width, layerY, layer2Width, layerHeight);
+    }
+    
+    // Draw decorative clouds
     clouds.forEach(cloud => drawCloud(cloud));
 }
 
@@ -222,12 +446,18 @@ function createObstacle() {
     
     if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvas.width - minGap - Math.random() * maxGap) {
         const height = 25 + Math.random() * 30;
+        
+        // Random obstacle sprite selection
+        const spriteTypes = ['spike', 'spikeBall', 'flyMan', 'spikeMan'];
+        const randomType = spriteTypes[Math.floor(Math.random() * spriteTypes.length)];
+        
         obstacles.push({
             x: canvas.width,
             y: groundHeight - height,
             width: 30,
             height: height,
-            counted: false
+            counted: false,
+            sprite: obstacleSprites[randomType]
         });
     }
 }
@@ -251,13 +481,14 @@ function updateObstacles() {
     createObstacle();
 }
 
-// Create Collectible (Tet themed)
+// Create Collectible (Using game sprites)
 function createCollectible() {
-    if (Math.random() < 0.015) { // 1.5% chance each frame (increased)
+    if (Math.random() < 0.015) { // 1.5% chance each frame
         const types = [
-            { type: 'lixi', value: 100, size: 25, weight: 1 },      // Lì xì đỏ
-            { type: 'banhchung', value: 50, size: 22, weight: 2 },  // Bánh chưng
-            { type: 'flower', value: 30, size: 20, weight: 3 }      // Hoa đào/mai
+            { type: 'gold', value: 100, size: 30, weight: 1, sprite: collectibleSprites.gold },
+            { type: 'silver', value: 50, size: 28, weight: 2, sprite: collectibleSprites.silver },
+            { type: 'bronze', value: 30, size: 25, weight: 3, sprite: collectibleSprites.bronze },
+            { type: 'carrot', value: 20, size: 22, weight: 4, sprite: collectibleSprites.carrot }
         ];
         
         // Weighted random selection
@@ -282,7 +513,8 @@ function createCollectible() {
             type: selectedType.type,
             value: selectedType.value,
             collected: false,
-            rotation: 0
+            rotation: 0,
+            sprite: selectedType.sprite
         });
     }
 }
@@ -290,15 +522,20 @@ function createCollectible() {
 // Create Power-Up
 function createPowerUp() {
     if (Math.random() < 0.003) { // 0.3% chance each frame
-        const types = ['shield', 'doubleJump', 'magnet'];
-        const type = types[Math.floor(Math.random() * types.length)];
+        const types = [
+            { type: 'shield', sprite: powerUpSprites.shield },
+            { type: 'doubleJump', sprite: powerUpSprites.doubleJump },
+            { type: 'magnet', sprite: powerUpSprites.magnet }
+        ];
+        const selectedType = types[Math.floor(Math.random() * types.length)];
         const y = groundHeight - 80 - Math.random() * 100;
         powerUps.push({
             x: canvas.width,
             y: y,
             width: 30,
             height: 30,
-            type: type
+            type: selectedType.type,
+            sprite: selectedType.sprite
         });
     }
 }
@@ -408,34 +645,16 @@ function updateFireworks() {
     fireworks = fireworks.filter(fw => fw.life > 0);
 }
 
-// Create Tet Decoration (Flying messages)
+// Create Tet Decoration (Flying messages) - DISABLED
 function createTetDecoration() {
-    if (Math.random() < 0.002) { // 0.2% chance
-        const texts = ['chúc', 'học giỏi', 'xinh đẹp', 'may mắn', 'hạnh phúc'];
-        tetDecorations.push({
-            x: canvas.width,
-            y: 50 + Math.random() * 100,
-            text: texts[Math.floor(Math.random() * texts.length)],
-            speed: 1 + Math.random(),
-            scale: 0.8 + Math.random() * 0.4,
-            opacity: 0.6 + Math.random() * 0.4,
-            wobble: 0,
-            wobbleSpeed: 0.05 + Math.random() * 0.05
-        });
-    }
+    // Disabled to remove flying text
+    return;
 }
 
-// Update Tet Decorations
+// Update Tet Decorations - DISABLED
 function updateTetDecorations() {
-    if (gamePaused) return;
-    
-    tetDecorations.forEach(dec => {
-        dec.x -= dec.speed;
-        dec.wobble += dec.wobbleSpeed;
-    });
-    
-    tetDecorations = tetDecorations.filter(dec => dec.x > -50);
-    createTetDecoration();
+    // Disabled to remove flying text
+    return;
 }
 
 // Check Milestone and Trigger Fireworks
@@ -490,50 +709,51 @@ function drawCollectibles() {
         ctx.save();
         ctx.translate(item.x + item.width / 2, item.y + item.height / 2);
         
-        if (item.type === 'lixi') {
-            // Draw red envelope (lì xì)
-            ctx.fillStyle = '#dc2626';
-            ctx.fillRect(-item.width / 2, -item.height / 2, item.width, item.height);
-            ctx.fillStyle = '#fbbf24';
-            ctx.strokeStyle = '#fbbf24';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(-item.width / 2 + 3, -item.height / 2 + 3, item.width - 6, item.height - 6);
-            // Draw 福 character
-            ctx.fillStyle = '#fbbf24';
-            ctx.font = 'bold 14px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('福', 0, 0);
-        } else if (item.type === 'banhchung') {
-            // Draw bánh chưng (square cake)
-            ctx.fillStyle = '#4ade80';
-            ctx.fillRect(-item.width / 2, -item.height / 2, item.width, item.height);
-            ctx.strokeStyle = '#22c55e';
-            ctx.lineWidth = 2;
-            // Draw crossed lines
-            ctx.beginPath();
-            ctx.moveTo(-item.width / 2, 0);
-            ctx.lineTo(item.width / 2, 0);
-            ctx.moveTo(0, -item.height / 2);
-            ctx.lineTo(0, item.height / 2);
-            ctx.stroke();
-        } else if (item.type === 'flower') {
-            // Draw peach blossom (hoa đào)
-            const petals = 5;
-            ctx.fillStyle = '#f472b6';
-            for (let i = 0; i < petals; i++) {
-                ctx.save();
-                ctx.rotate((Math.PI * 2 * i) / petals);
+        // Rotate for visual effect
+        item.rotation += 0.05;
+        ctx.rotate(item.rotation);
+        
+        // Draw using sprite if available
+        if (item.sprite && item.sprite.complete) {
+            ctx.drawImage(item.sprite, -item.width / 2, -item.height / 2, item.width, item.height);
+        } else {
+            // Fallback drawing based on type
+            if (item.type === 'gold') {
+                ctx.fillStyle = '#ffd700';
                 ctx.beginPath();
-                ctx.ellipse(0, -item.width / 3, item.width / 4, item.width / 2.5, 0, 0, Math.PI * 2);
+                ctx.arc(0, 0, item.width / 2, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.restore();
+                ctx.strokeStyle = '#b8860b';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            } else if (item.type === 'silver') {
+                ctx.fillStyle = '#c0c0c0';
+                ctx.beginPath();
+                ctx.arc(0, 0, item.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#808080';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            } else if (item.type === 'bronze') {
+                ctx.fillStyle = '#cd7f32';
+                ctx.beginPath();
+                ctx.arc(0, 0, item.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#8b4513';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            } else if (item.type === 'carrot') {
+                // Draw simple carrot
+                ctx.fillStyle = '#ff6b35';
+                ctx.beginPath();
+                ctx.moveTo(0, -item.height / 3);
+                for (let i = 0; i < 3; i++) {
+                    ctx.lineTo(-item.width / 4, -item.height / 2);
+                    ctx.lineTo(item.width / 4, -item.height / 2);
+                }
+                ctx.lineTo(0, item.height / 2);
+                ctx.fill();
             }
-            // Center
-            ctx.fillStyle = '#fbbf24';
-            ctx.beginPath();
-            ctx.arc(0, 0, item.width / 5, 0, Math.PI * 2);
-            ctx.fill();
         }
         
         ctx.restore();
@@ -543,33 +763,39 @@ function drawCollectibles() {
 // Draw Power-Ups
 function drawPowerUps() {
     powerUps.forEach(item => {
-        if (item.type === 'shield') {
-            ctx.fillStyle = '#3b82f6';
-            ctx.beginPath();
-            ctx.moveTo(item.x + item.width / 2, item.y);
-            ctx.lineTo(item.x + item.width, item.y + item.height / 3);
-            ctx.lineTo(item.x + item.width, item.y + item.height * 2 / 3);
-            ctx.lineTo(item.x + item.width / 2, item.y + item.height);
-            ctx.lineTo(item.x, item.y + item.height * 2 / 3);
-            ctx.lineTo(item.x, item.y + item.height / 3);
-            ctx.closePath();
-            ctx.fill();
-        } else if (item.type === 'doubleJump') {
-            ctx.fillStyle = '#10b981';
-            ctx.beginPath();
-            ctx.arc(item.x + item.width / 2, item.y + item.height / 2, item.width / 2, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 16px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('2x', item.x + item.width / 2, item.y + item.height / 2 + 6);
-        } else if (item.type === 'magnet') {
-            ctx.fillStyle = '#ef4444';
-            ctx.beginPath();
-            ctx.arc(item.x + 8, item.y + 15, 8, 0, Math.PI, true);
-            ctx.arc(item.x + 22, item.y + 15, 8, 0, Math.PI, true);
-            ctx.rect(item.x + 8, item.y + 15, 14, 10);
-            ctx.fill();
+        // Draw using sprite if available
+        if (item.sprite && item.sprite.complete) {
+            ctx.drawImage(item.sprite, item.x, item.y, item.width, item.height);
+        } else {
+            // Fallback drawing
+            if (item.type === 'shield') {
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.moveTo(item.x + item.width / 2, item.y);
+                ctx.lineTo(item.x + item.width, item.y + item.height / 3);
+                ctx.lineTo(item.x + item.width, item.y + item.height * 2 / 3);
+                ctx.lineTo(item.x + item.width / 2, item.y + item.height);
+                ctx.lineTo(item.x, item.y + item.height * 2 / 3);
+                ctx.lineTo(item.x, item.y + item.height / 3);
+                ctx.closePath();
+                ctx.fill();
+            } else if (item.type === 'doubleJump') {
+                ctx.fillStyle = '#10b981';
+                ctx.beginPath();
+                ctx.arc(item.x + item.width / 2, item.y + item.height / 2, item.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('2x', item.x + item.width / 2, item.y + item.height / 2 + 6);
+            } else if (item.type === 'magnet') {
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(item.x + 8, item.y + 15, 8, 0, Math.PI, true);
+                ctx.arc(item.x + 22, item.y + 15, 8, 0, Math.PI, true);
+                ctx.rect(item.x + 8, item.y + 15, 14, 10);
+                ctx.fill();
+            }
         }
     });
 }
@@ -985,6 +1211,10 @@ function resetGame() {
     pauseBtn.innerHTML = '<i class="fas fa-pause"></i> Tạm dừng';
     pauseBtn.classList.remove('active');
     initClouds();
+    
+    // Random ground tile for variety
+    const tileTypes = [groundTiles.grass, groundTiles.sand, groundTiles.snow, groundTiles.stone, groundTiles.wood, groundTiles.cake];
+    currentGroundTile = tileTypes[Math.floor(Math.random() * tileTypes.length)];
 }
 
 // Toggle Pause
@@ -1031,6 +1261,7 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     drawBackground();
+    updateBackground();
     updateClouds();
     
     // Update and draw falling decorations (background layer)
@@ -1042,6 +1273,9 @@ function gameLoop() {
     drawTetDecorations();
     
     drawGround();
+    
+    // Update player animation
+    updatePlayerAnimation();
     
     if (!gameStarted) {
         ctx.fillStyle = 'rgba(31, 31, 31, 0.8)';
@@ -1128,6 +1362,31 @@ restartBtn.addEventListener('click', resetGame);
 pauseBtn.addEventListener('click', togglePause);
 soundToggle.addEventListener('click', toggleSound);
 difficultySelect.addEventListener('change', changeDifficulty);
+
+// Character Selection
+const bunny1Btn = document.getElementById('bunny1Btn');
+const bunny2Btn = document.getElementById('bunny2Btn');
+
+function selectCharacter(character) {
+    selectedCharacter = character;
+    
+    // Update button states
+    document.querySelectorAll('.character-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    if (character === 'bunny1') {
+        bunny1Btn.classList.add('active');
+    } else {
+        bunny2Btn.classList.add('active');
+    }
+    
+    // Update player sprite immediately
+    updatePlayerAnimation();
+}
+
+bunny1Btn.addEventListener('click', () => selectCharacter('bunny1'));
+bunny2Btn.addEventListener('click', () => selectCharacter('bunny2'));
 
 // Back Home Function
 function backHome() {
