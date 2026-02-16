@@ -1462,7 +1462,7 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // Set Momo Link (User will update this)
-document.getElementById('lixiLink').href = 'https://me.momo.vn/YOUR_MOMO_LINK_HERE';
+document.getElementById('lixiLink').href = 'https://lixi.momo.vn/lixi/PM6ZbVg0ZlJd64D';
 
 // Initialize
 initClouds();
