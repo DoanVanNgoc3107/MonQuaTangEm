@@ -88,7 +88,9 @@ body {
     box-shadow: 
         0 5px 15px rgba(255, 0, 0, 0.5),
         inset 0 -5px 10px rgba(0, 0, 0, 0.3);
-    animation: swingLantern 4s ease-in-out infinite;
+    animation: 
+        swingLantern 4s ease-in-out infinite,
+        lanternGlow 3s ease-in-out infinite;
     z-index: 5;
 }
 
@@ -235,6 +237,22 @@ body {
     }
     50% {
         transform: rotate(5deg);
+    }
+}
+
+@keyframes lanternGlow {
+    0%, 100% {
+        box-shadow: 
+            0 5px 15px rgba(255, 0, 0, 0.5),
+            inset 0 -5px 10px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        box-shadow: 
+            0 5px 15px rgba(255, 0, 0, 0.5),
+            inset 0 -5px 10px rgba(0, 0, 0, 0.3),
+            0 0 40px rgba(255, 215, 0, 0.9),
+            0 0 60px rgba(255, 215, 0, 0.5);
     }
 }
 
@@ -556,7 +574,8 @@ body {
 
 .game-container {
     position: relative;
-    max-width: 800px;
+    max-width: 1200px; /* Tăng từ 800px */
+    width: 100%;
     margin: 24px auto;
     border-radius: 16px;
     overflow: hidden;
@@ -569,6 +588,7 @@ body {
     width: 100%;
     height: auto;
     cursor: pointer;
+    touch-action: manipulation; /* Cải thiện touch trên mobile */
 }
 
 .game-over-screen {
@@ -1257,11 +1277,12 @@ body {
 
 @media (max-width: 720px) {
     .game-container {
-        margin: 16px auto;
+        margin: 16px 8px;
+        border-radius: 12px;
     }
 
     #gameCanvas {
-        height: 200px;
+        min-height: 250px; /* Đảm bảo canvas không quá nhỏ */
     }
 
     .game-info {
@@ -1287,7 +1308,73 @@ body {
         width: 3px;
         height: 3px;
     }
+}
+
+/* Mobile Landscape Mode - Phù hợp cho mobile quay ngang */
+@media (max-width: 900px) and (orientation: landscape) {
+    .page {
+        padding: 20px 10px;
+    }
     
+    .game-container {
+        max-width: 95vw;
+        margin: 12px auto;
+        border-radius: 8px;
+    }
+    
+    #gameCanvas {
+        max-height: 70vh; /* Giới hạn chiều cao */
+        width: auto;
+        margin: 0 auto;
+    }
+    
+    .game-section {
+        padding: 20px 10px;
+    }
+    
+    .section-title h2 {
+        font-size: 1.5rem;
+    }
+    
+    .character-selector {
+        padding: 10px;
+        margin: 10px 0;
+    }
+    
+    .game-controls-bar {
+        margin: 10px 0;
+        gap: 8px;
+    }
+    
+    .game-control-btn, .character-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    .game-info {
+        flex-direction: row;
+        gap: 15px;
+        font-size: 14px;
+    }
+    
+    .game-stats {
+        gap: 15px;
+    }
+    
+    /* Ẩn các decorations không cần thiết */
+    .tet-decorations {
+        display: none;
+    }
+    
+    .hero {
+        padding: 40px 20px;
+    }
+    
+    .game-instructions {
+        padding: 12px;
+        font-size: 13px;
+    }
+}
     .lantern {
         width: 35px;
         height: 49px;

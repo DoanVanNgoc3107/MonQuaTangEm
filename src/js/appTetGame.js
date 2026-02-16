@@ -26,7 +26,7 @@ const gameOverSound = document.getElementById('gameOverSound');
 
 // Game Variables
 let gameSpeed = 2.5;
-let gravity = 0.8;
+let gravity = 0.5; // Giảm từ 0.8 để rơi chậm hơn
 let score = 0;
 let obstaclesPassed = 0;
 let coins = 0;
@@ -52,9 +52,33 @@ let canDoubleJump = false;
 
 // Difficulty Settings
 const difficulties = {
-    easy: { speed: 2.5, minGap: 300, maxGap: 550, speedIncrease: 0.1 },
-    normal: { speed: 3.5, minGap: 200, maxGap: 350, speedIncrease: 0.15 },
-    hard: { speed: 5, minGap: 150, maxGap: 250, speedIncrease: 0.2 }
+    easy: { 
+        speed: 2.5, 
+        minGap: 400, 
+        maxGap: 650, 
+        speedIncrease: 0.08,
+        collectibleRate: 0.025, // 2.5% - Nhiều item hơn
+        powerUpRate: 0.005,      // 0.5%
+        obstacleFrequency: 0.7   // Thưa hơn để làm quen
+    },
+    normal: { 
+        speed: 3.5, 
+        minGap: 250, 
+        maxGap: 450, 
+        speedIncrease: 0.12,
+        collectibleRate: 0.015,  // 1.5%
+        powerUpRate: 0.003,      // 0.3%
+        obstacleFrequency: 1.0   // Bình thường
+    },
+    hard: { 
+        speed: 5, 
+        minGap: 180, 
+        maxGap: 320, 
+        speedIncrease: 0.18,
+        collectibleRate: 0.01,   // 1% - Ít item hơn
+        powerUpRate: 0.002,      // 0.2%
+        obstacleFrequency: 1.3   // Dày đặc hơn
+    }
 };
 
 let currentDifficulty = 'easy';
@@ -193,10 +217,10 @@ let currentGroundTile = groundTiles.grass;
 const player = {
     x: 50,
     y: 0,
-    width: 50,
-    height: 50,
+    width: 60, // Tăng từ 50 để phù hợp với canvas lớn hơn
+    height: 60,
     dy: 0,
-    jumpPower: -16,
+    jumpPower: -14, // Giảm xuống để nhảy vừa phải không quá cao
     grounded: false,
     currentSprite: playerSprites.bunny1.stand,
     animationFrame: 0,
@@ -206,7 +230,7 @@ const player = {
 };
 
 // Ground level
-const groundHeight = 250;
+const groundHeight = 330; // T\u0103ng t\u1eeb 250 \u0111\u1ec3 ph\u00f9 h\u1ee3p v\u1edbi canvas 400px
 player.y = groundHeight - player.height;
 
 // Obstacle Array
@@ -443,9 +467,11 @@ function createObstacle() {
     const diff = difficulties[currentDifficulty];
     const minGap = diff.minGap;
     const maxGap = diff.maxGap;
+    const frequency = diff.obstacleFrequency;
     
-    if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvas.width - minGap - Math.random() * maxGap) {
-        const height = 25 + Math.random() * 30;
+    // Áp dụng frequency để điều chỉnh tần suất xuất hiện
+    if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvas.width - (minGap * frequency) - Math.random() * (maxGap * frequency)) {
+        const height = 35 + Math.random() * 40; // Tăng từ 25-55 lên 35-75 để phù hợp canvas lớn hơn
         
         // Random obstacle sprite selection
         const spriteTypes = ['spike', 'spikeBall', 'flyMan', 'spikeMan'];
@@ -454,7 +480,7 @@ function createObstacle() {
         obstacles.push({
             x: canvas.width,
             y: groundHeight - height,
-            width: 30,
+            width: 40, // Tăng từ 30 lên 40
             height: height,
             counted: false,
             sprite: obstacleSprites[randomType]
@@ -483,12 +509,15 @@ function updateObstacles() {
 
 // Create Collectible (Using game sprites)
 function createCollectible() {
-    if (Math.random() < 0.015) { // 1.5% chance each frame
+    const diff = difficulties[currentDifficulty];
+    const spawnRate = diff.collectibleRate;
+    
+    if (Math.random() < spawnRate) { // Spawn rate theo độ khó
         const types = [
-            { type: 'gold', value: 100, size: 30, weight: 1, sprite: collectibleSprites.gold },
-            { type: 'silver', value: 50, size: 28, weight: 2, sprite: collectibleSprites.silver },
-            { type: 'bronze', value: 30, size: 25, weight: 3, sprite: collectibleSprites.bronze },
-            { type: 'carrot', value: 20, size: 22, weight: 4, sprite: collectibleSprites.carrot }
+            { type: 'gold', value: 100, size: 38, weight: 1, sprite: collectibleSprites.gold },
+            { type: 'silver', value: 50, size: 35, weight: 2, sprite: collectibleSprites.silver },
+            { type: 'bronze', value: 30, size: 32, weight: 3, sprite: collectibleSprites.bronze },
+            { type: 'carrot', value: 20, size: 30, weight: 4, sprite: collectibleSprites.carrot }
         ];
         
         // Weighted random selection
@@ -521,19 +550,22 @@ function createCollectible() {
 
 // Create Power-Up
 function createPowerUp() {
-    if (Math.random() < 0.003) { // 0.3% chance each frame
+    const diff = difficulties[currentDifficulty];
+    const spawnRate = diff.powerUpRate;
+    
+    if (Math.random() < spawnRate) { // Spawn rate theo độ khó
         const types = [
             { type: 'shield', sprite: powerUpSprites.shield },
             { type: 'doubleJump', sprite: powerUpSprites.doubleJump },
             { type: 'magnet', sprite: powerUpSprites.magnet }
         ];
         const selectedType = types[Math.floor(Math.random() * types.length)];
-        const y = groundHeight - 80 - Math.random() * 100;
+        const y = groundHeight - 100 - Math.random() * 130; // Điều chỉnh vị trí cho canvas cao hơn
         powerUps.push({
             x: canvas.width,
             y: y,
-            width: 30,
-            height: 30,
+            width: 40, // Tăng từ 30 lên 40
+            height: 40,
             type: selectedType.type,
             sprite: selectedType.sprite
         });
@@ -1395,7 +1427,7 @@ function backHome() {
 
 // Countdown Timer to Tet
 function updateCountdown() {
-    const tetDate = new Date('2027-01-29T00:00:00'); // Tết 2027
+    const tetDate = new Date('2026-02-17T00:00:00'); // 00:00 ngày 17 tháng 2 năm 2026
     const now = new Date();
     const diff = tetDate - now;
     
@@ -1410,7 +1442,7 @@ function updateCountdown() {
         document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
         document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
     } else {
-        document.getElementById('countdownMessage').textContent = 'Chúc mừng năm mới! 🎉';
+        document.getElementById('countdownMessage').textContent = '🎉 Đã đến ngày 17/2/2026! Chúc em bé xinh đẹp, học giỏi, luôn vui vẻ bên anh! 🎊💝';
     }
 }
 
